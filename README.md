@@ -7,6 +7,10 @@ I created this repository to showcase my work on controlling my Govee RGB LED st
 
 Please note that this code only works with the H618F model; for other models, the commands may differ.
 
+SignalRGB, please contact me if this repository bothers you or if you need help integrating it with better code in your app
+
+
+
 Use this code carefully. While it does not damage my LED strip, I cannot guarantee that there are no risks involved.
 
 This project is based on the following repositories:
