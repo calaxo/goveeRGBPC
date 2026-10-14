@@ -7,7 +7,45 @@ I created this repository to showcase my work on controlling my Govee RGB LED st
 
 Please note that this code only works with the H618F model; for other models, the commands may differ.
 
-SignalRGB, please contact me if this repository bothers you or if you need help integrating it with better code in your app
+SignalRGB, please open an issue if this repository bothers you or if you need help integrating it with better code in your app.
+
+## How it works
+
+```
+SignalRGB ──(UDP JSON, 127.0.0.1:4003)──► UDPserv/index.js ──(Bluetooth LE)──► Govee H618F
+```
+
+- `signalRGB/Govee.js` is a modified SignalRGB Govee plugin that sends the colors of the 15 segments
+  to a local UDP port instead of the Govee cloud/LAN API.
+- `UDPserv/index.js` listens on UDP port `4003`, connects to the strip over Bluetooth LE
+  (`@abandonware/noble`) and writes one command per changed segment (or one command for the whole
+  strip when more than 80 % of the segments share the same color).
+
+## Installation
+
+Requirements: Node.js 18+, a Bluetooth LE adapter supported by
+[noble](https://github.com/abandonware/noble), and SignalRGB.
+
+```bash
+cd UDPserv
+npm install
+cp .env.example .env   # then set the Bluetooth MAC address of your strip
+npm start
+```
+
+Then copy `signalRGB/Govee.js` into the SignalRGB plugin folder
+(`Documents\WhirlwindFX\Plugins`) and restart SignalRGB.
+
+`npm run test-send` (`UDPserv/testsender.js`) sends a test frame to the relay without SignalRGB.
+
+### Configuration
+
+| Variable | Description |
+|---|---|
+| `MACBluetooth` | Bluetooth MAC address of the Govee controller (`xx:xx:xx:xx:xx:xx`), read from `UDPserv/.env` |
+
+`UDPserv/bluetoothonly.js` and `UDPserv/other.js` are standalone Bluetooth test scripts: set the
+`LED_MAC_ADDRESS` constant at the top of the file before running them.
 
 
 
@@ -25,4 +63,13 @@ This project is based on the following repositories:
 >
 > It is also often lawful to reverse-engineer an artifact or process as long as it is obtained legitimately. If the software is patented, it does not necessarily need to be reverse-engineered, as patents require a public disclosure of the invention. It should be noted that just because a piece of software is patented, that does not mean the entire thing is patented; there may be parts that remain undisclosed.
 
-If @Govee would like me to take this down, please contact me via email or create an issue on this repository.
+If @Govee would like me to take this down, please open an issue on this repository.
+
+## License
+
+[MIT](LICENSE) © calaxo: you can reuse, modify and redistribute this code, including commercially,
+as long as you keep the copyright and license notice. A link back to this repository is appreciated.
+
+`signalRGB/Govee.js` is derived from the Govee plugin published by WhirlwindFX for SignalRGB
+(<https://gitlab.com/signalrgb/Govee>); the original code remains the property of its authors.
+This project is not affiliated with Govee or WhirlwindFX.

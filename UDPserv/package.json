@@ -1,0 +1,15 @@
+{
+  "name": "govee-rgbpc-relay",
+  "version": "1.0.0",
+  "description": "UDP to Bluetooth LE relay between SignalRGB and a Govee H618F LED strip",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "test-send": "node testsender.js"
+  },
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-25",
+    "dotenv": "^16.4.7"
+  }
+}
